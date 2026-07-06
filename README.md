@@ -52,6 +52,8 @@ Then start opencode from this folder:
 
 Keep new CAD work under `work\`, especially `work\models\`.
 
+opencode desktop loads `.opencode/plugins/agent-cad-bootstrap.js` from this workspace. On workspace load it runs `doctor-agent-cad.ps1`; if setup is missing, it runs `setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright` automatically. For manual shells, run `doctor-agent-cad.ps1` when you want an explicit readiness report.
+
 Use the upstream CAD scripts through the root `.venv`:
 
 ```powershell

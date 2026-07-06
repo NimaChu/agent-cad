@@ -11,6 +11,8 @@ This outer directory is the user workspace. Keep upstream source code and user C
 
 ## Editing Rules
 
+- Bootstrap is automatic in opencode: `.opencode/plugins/agent-cad-bootstrap.js` runs `.\doctor-agent-cad.ps1 -Json` when the workspace loads and runs `.\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright` if required. Do not ask the user to request setup before modeling; perform setup first, then continue.
+- If the opencode plugin is unavailable, perform the same bootstrap manually before the first CAD/modeling task: run `.\doctor-agent-cad.ps1`; if it exits nonzero, run `.\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright`, then rerun doctor.
 - On first use on a new computer, run `.\doctor-agent-cad.ps1`. If it reports missing dependencies, run `.\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright` before CAD generation.
 - If `upstream/text-to-cad/AGENTS.md` is missing, run `git submodule update --init --recursive` or `.\setup-agent-cad.ps1`.
 - Do not edit files under `upstream/text-to-cad/` unless the user explicitly asks to modify the upstream project or fix its code.
