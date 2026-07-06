@@ -11,6 +11,8 @@ This outer directory is the user workspace. Keep upstream source code and user C
 
 ## Editing Rules
 
+- On first use on a new computer, run `.\doctor-agent-cad.ps1`. If it reports missing dependencies, run `.\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright` before CAD generation.
+- If `upstream/text-to-cad/AGENTS.md` is missing, run `git submodule update --init --recursive` or `.\setup-agent-cad.ps1`.
 - Do not edit files under `upstream/text-to-cad/` unless the user explicitly asks to modify the upstream project or fix its code.
 - Put user CAD generators, STEP/STP, STL, 3MF, GLB, DXF, URDF, SRDF, SDF, G-code, snapshots, and notes under `work/`.
 - Prefer `work/models/` for durable CAD and robot-description artifacts.
@@ -34,4 +36,4 @@ Start CAD Viewer against the user model area:
 node upstream\text-to-cad\viewer\scripts\start-agent-viewer.mjs --host 127.0.0.1 --dir "$PWD\work\models" --json
 ```
 
-Run `.\setup-agent-cad.ps1` after copying this workspace to another computer.
+Run `.\doctor-agent-cad.ps1` after copying this workspace to another computer. Run `.\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright` if the doctor reports missing items.

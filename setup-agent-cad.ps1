@@ -12,6 +12,20 @@ $UpstreamRoot = Join-Path $WorkspaceRoot "upstream\text-to-cad"
 $WorkRoot = Join-Path $WorkspaceRoot "work"
 $PythonExe = Join-Path $WorkspaceRoot ".venv\Scripts\python.exe"
 
+function Ensure-UpstreamCheckout {
+  if (Test-Path -LiteralPath (Join-Path $UpstreamRoot "AGENTS.md")) {
+    return
+  }
+  if (-not (Test-Path -LiteralPath (Join-Path $WorkspaceRoot ".gitmodules"))) {
+    throw "Missing upstream checkout and .gitmodules: $UpstreamRoot"
+  }
+  Write-Host "initializing upstream submodule..."
+  git -C $WorkspaceRoot submodule update --init --recursive upstream/text-to-cad
+  if (-not (Test-Path -LiteralPath (Join-Path $UpstreamRoot "AGENTS.md"))) {
+    throw "Failed to initialize upstream checkout: $UpstreamRoot"
+  }
+}
+
 function Get-WorkspaceProxy {
   if ($Proxy) {
     return $Proxy
@@ -155,16 +169,13 @@ function Install-PlaywrightBrowser {
   & $PythonExe -m playwright install chromium
 }
 
-if (-not (Test-Path -LiteralPath (Join-Path $UpstreamRoot "AGENTS.md"))) {
-  throw "Missing upstream checkout: $UpstreamRoot"
-}
-
 $workspaceProxy = Get-WorkspaceProxy
 if ($workspaceProxy) {
   $env:HTTP_PROXY = $workspaceProxy
   $env:HTTPS_PROXY = $workspaceProxy
 }
 
+Ensure-UpstreamCheckout
 Ensure-WorkDirs
 Configure-GitProxy -ProxyUrl $workspaceProxy
 Restore-UpstreamJunctions

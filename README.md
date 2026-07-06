@@ -4,12 +4,13 @@ This folder is a portable wrapper workspace for CAD agents.
 
 ```text
 E:\agent-cad
-├─ upstream\text-to-cad\   # original open-source project, read-mostly
-├─ work\                   # your CAD work and generated artifacts
-├─ .venv\                  # local Python environment, machine-specific
-├─ .agents\skills\         # workspace-local skill links
-├─ setup-agent-cad.ps1     # rebuild links and dependencies
-└─ start-opencode.ps1      # start opencode with CAD-friendly env vars
++-- upstream\text-to-cad\   # original open-source project, read-mostly
++-- work\                   # your CAD work and generated artifacts
++-- .venv\                  # local Python environment, machine-specific
++-- .agents\skills\         # workspace-local skill links
++-- doctor-agent-cad.ps1    # report missing dependencies/config
++-- setup-agent-cad.ps1     # rebuild links and dependencies
++-- start-opencode.ps1      # start opencode with CAD-friendly env vars
 ```
 
 ## Can I copy this to another PC?
@@ -29,7 +30,13 @@ Machine-specific and often needs rebuilding:
 - Playwright browser binaries
 - Windows junctions under `.agents\skills`, Codex skills, opencode skills, and upstream development symlink paths
 
-After copying, open PowerShell in the copied folder and run:
+After cloning or copying, open PowerShell in the workspace folder and run the doctor:
+
+```powershell
+.\doctor-agent-cad.ps1
+```
+
+If anything is missing, run:
 
 ```powershell
 .\setup-agent-cad.ps1 -InstallDeps -InstallViewerDeps -InstallPlaywright
@@ -53,3 +60,15 @@ $env:PYTHONUTF8 = "1"
 ```
 
 If you intentionally need to modify the open-source project, work inside `upstream\text-to-cad` and follow its `AGENTS.md`.
+
+## Clone From GitHub
+
+Preferred:
+
+```powershell
+git clone --recurse-submodules https://github.com/NimaChu/agent-cad.git
+cd agent-cad
+.\doctor-agent-cad.ps1
+```
+
+If cloned without submodules, `setup-agent-cad.ps1` will initialize `upstream\text-to-cad` automatically.
