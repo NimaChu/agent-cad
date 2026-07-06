@@ -1,0 +1,16 @@
+.venv/
+tmp/
+*.log
+*.tmp
+
+# Local app/runtime state and generated skill links.
+.agents/
+
+# User work stays local by default. Keep only the work area README in git.
+work/**
+!work/
+!work/README.md
+
+# Heavy package folders can be recreated.
+upstream/text-to-cad/viewer/node_modules/
+upstream/text-to-cad/docs/node_modules/

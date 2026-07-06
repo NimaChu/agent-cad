@@ -1,0 +1,3 @@
+[submodule "upstream/text-to-cad"]
+	path = upstream/text-to-cad
+	url = https://github.com/earthtojake/text-to-cad.git
